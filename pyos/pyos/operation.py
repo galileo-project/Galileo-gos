@@ -5,7 +5,7 @@ import os
 from pyos.utils.string import decode as str_decode
 from pyos.utils.string import is_str
 
-class LocalOperation(object):
+class SysOperation(object):
     _RE_CD = re.compile(r"cd\s([\w\d_\/\s\~\.]+)")
 
     @classmethod
@@ -73,10 +73,10 @@ class LocalOperation(object):
         return not err
 
     @classmethod
-    def run(cls, cmd, path = None, *args, **kwargs):
+    def run(cls, cmd, path = None, paras=None, *args, **kwargs):
         if path:
             path = cls.rel2abs(path)
-        return cls.__exec(cmd, cwd = path, *args, **kwargs)
+        return cls.__exec(cmd, cwd = path, paras=paras, *args, **kwargs)
 
 
     @classmethod
@@ -178,7 +178,7 @@ class LocalOperation(object):
         return os.getenv("USER")
 
     @classmethod
-    def __exec(cls, cmd, cwd = None, *args, **kwargs):
+    def __exec(cls, cmd, cwd = None, paras=None, *args, **kwargs):
         if "&&" in cmd:
             cmds = cmd.split("&&")
             err  = False
@@ -197,7 +197,19 @@ class LocalOperation(object):
             return err, msg
 
         cmd_args = shlex.split(cmd)
-        p = Popen(cmd_args, cwd = cwd, stderr=PIPE, stdout=PIPE, shell=False)
+        p = Popen(cmd_args, cwd=cwd, stderr=PIPE, stdout=PIPE, stdin=PIPE, shell=False)
+        if paras:
+            if not isinstance(paras, list):
+                paras = [paras]
+
+            for para in paras:
+                p.stdin.write("%s\n" % para)
+                # try:
+                #     p.stdin.write("%s\n" % para)
+                # except:
+                #     pass
+            p.stdin.close()
+
         return cls.__parser(p, *args, **kwargs)
 
     @classmethod
