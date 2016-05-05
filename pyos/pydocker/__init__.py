@@ -1,5 +1,5 @@
 import time
-from pyos.pyos.operation import SysOperation
+from pyos.pysys.operation import SysOperation
 
 
 class Docker(object):

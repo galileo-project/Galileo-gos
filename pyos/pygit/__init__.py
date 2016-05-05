@@ -3,7 +3,7 @@ from gitdb import GitDB
 from git import Repo, Git
 from github import GithubObject
 from pyos.pygit.pygithub import GitHubClient
-from pyos.pyos.operation import SysOperation
+from pyos.pysys.operation import SysOperation
 
 class GitClient(SysOperation):
     _GITIGNORE_NAME = ".gitignore"
