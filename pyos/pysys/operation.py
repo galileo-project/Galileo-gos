@@ -40,7 +40,7 @@ class SysOperation(object):
             return True
 
     @classmethod
-    def ls(cls, path, hidden=False, *args, **kwargs):
+    def ls(cls, path=None, hidden=False, *args, **kwargs):
         cmd = "ls %s" % cls.rel2abs(path)
         if hidden:
             cmd = "%s %s" % (cmd, "-a")
@@ -168,6 +168,7 @@ class SysOperation(object):
     def touch(cls, path, content="", *args, **kwargs):
         with open(path, "w+") as stream:
             stream.write(content)
+        return True
 
     @property
     def user(self):

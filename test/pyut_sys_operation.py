@@ -1,5 +1,5 @@
 from pyut import eq, it
-from pyos.pysys.operation import SysOperation
+from pyos import SysOperation
 
 TMP_DIR      = "test_dir"
 TMP_FILE     = "test_file"
@@ -20,3 +20,6 @@ def pyut_test_touch():
 def pyut_test_read():
     content = SysOperation.read(TMP_FILE)
     eq(content, TEST_CONTENT)
+
+def pyut_test_ls():
+    it(SysOperation.ls() is not None)
