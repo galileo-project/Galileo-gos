@@ -6,8 +6,8 @@ class GitHubClient(object):
     def __init__(self, name, password):
         self.__username = name
         self.__password = password
-        self.__github = None
-        self.__user   = None
+        self.__github   = None
+        self.__user     = None
 
     def __verify_login(self, obj):
         if obj.get_api_status().status == self.__API_GOOD:
